@@ -1,18 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const fileController = require('../controllers/fileController'); // Sube un nivel a controllers 
-const verifyToken = require('../middlewares/authMiddleware');  // Sube un nivel a middlewares 
+const pool = require('../db');
+const verificarToken = require('../middlewares/authMiddleware');
 
-// RUTA 1: Añadir texto al historial
-// URL en Postman: GET http://localhost:3000/files/hola
-router.get('/hola', verifyToken, fileController.handleFileAppend);
+// Ruta para ver el historial en Drupal
+router.get('/ver-historial', verificarToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM api_logs ORDER BY fecha DESC');
+    const contenido = result.rows.map(row => 
+      `[${row.fecha.toLocaleString()}] - ${row.mensaje}`
+    ).join('\n');
+    
+    res.header("Content-Type", "text/plain");
+    res.send(contenido || "Historial vacío en la base de datos.");
+  } catch (err) {
+    console.error('❌ Error SQL:', err.message);
+    res.status(500).send("Error al obtener datos de PostgreSQL");
+  }
+});
 
-// RUTA 2: Solo ver el contenido del archivo
-// URL en Postman: GET http://localhost:3000/files/ver-historial
-router.get('/ver-historial', verifyToken, fileController.getHistory);
-
-//el hola mundo
-router.get('/saludar', verifyToken, fileController.getSaludar);
+// Ruta de saludo
+router.get('/saludar', verificarToken, (req, res) => {
+    const hora = new Date().toLocaleTimeString();
+    res.json({ 
+        mensaje: `Hola ${req.user.user}, conexión exitosa`,
+        hora: hora,
+        foto: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80"
+    });
+});
 
 module.exports = router;
-

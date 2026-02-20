@@ -21,3 +21,11 @@ conector_api.saludo:
     _title: 'Página de Saludo'
   requirements:
     _permission: 'access content'
+
+conector_api.info_apis:
+  path: '/api/informacion'
+  defaults:
+    _controller: '\Drupal\conector_api\Controller\HistorialController::infoApis'
+    _title: '¿Qué son las APIs?'
+  requirements:
+    _permission: 'access content'
