@@ -1,0 +1,40 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+    networks:
+      - mi-red-segura
+
+  drupal:
+    image: drupal:10-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./drupal-data/modules:/var/www/html/modules/custom
+      - ./drupal-data/sites:/var/www/html/sites
+    depends_on:
+      - api
+      - postgres
+    networks:
+      - mi-red-segura
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: db-api-daw
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass1234
+    volumes:
+      - ./drupal-data/db_data:/var/lib/postgresql/data
+    networks:
+      - mi-red-segura
+
+networks:
+  mi-red-segura:
+    driver: bridge
