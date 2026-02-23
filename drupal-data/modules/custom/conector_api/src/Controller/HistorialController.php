@@ -95,7 +95,7 @@ class HistorialController extends ControllerBase
 
       $data = json_decode($response->getBody());
 
-      // 🛡️ Sanitizamos los datos para prevenir XSS
+      // 🛡️ Sanitizamos los datos para prevenir XSS (ATAQUES DE INYECION)
       $safe_mensaje = Html::escape($data->mensaje);
       $safe_hora = Html::escape($data->hora);
       $safe_foto = UrlHelper::filterBadProtocol($data->foto);

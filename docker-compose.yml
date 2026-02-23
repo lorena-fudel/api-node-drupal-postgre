@@ -36,6 +36,20 @@ services:
     networks:
       - mi-red-segura
 
+  pgadmin:
+  # una vez levantado el docker-compose, se puede acceder a pgadmin en http://localhost:5050
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - mi-red-segura
+
 networks:
   mi-red-segura:
     driver: bridge
