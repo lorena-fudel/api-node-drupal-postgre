@@ -22,6 +22,12 @@ services:
     depends_on:
       - api
       - postgres
+    env_file:
+      - .env  # <--- Esto le dice a Docker que cargue el archivo .env en este contenedor
+    environment:
+      - GLPI_APP_TOKEN=${GLPI_APP_TOKEN}
+      - GLPI_USER_TOKEN=${GLPI_USER_TOKEN}
+      - GLPI_BASE_URL=${GLPI_BASE_URL}
     networks:
       - mi-red-segura
 

@@ -29,3 +29,21 @@ conector_api.info_apis:
     _title: '¿Qué son las APIs?'
   requirements:
     _permission: 'access content'
+
+conector_api.buscar_glpi:
+  path: '/api/glpi/buscar/{email}'
+  defaults:
+    _controller: '\Drupal\conector_api\Controller\GlpiController::buscarUsuarioPorEmail'
+    _title: 'Buscador de Usuarios GLPI'
+  requirements:
+    _permission: 'access content' 
+    # Esta línea es CLAVE para que acepte puntos y arrobas en la URL
+    email: '.+'
+
+conector_api.tareas_usuario:
+  path: '/api/glpi/tareas/{id_usuario}'
+  defaults:
+    _controller: '\Drupal\conector_api\Controller\GlpiController::mostrarTareasUsuario'
+    _title: 'Tareas del Usuario'
+  requirements:
+    _permission: 'access content'
