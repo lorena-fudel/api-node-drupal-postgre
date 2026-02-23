@@ -1,18 +1,81 @@
 v2
-🚀 Drupal 10 & Node.js API Gateway IntegrationEste proyecto es un ecosistema de microservicios orquestado con Docker, que integra un CMS Drupal 10, una API REST en Node.js, una base de datos PostgreSQL y un cliente externo de gestión de activos (GLPI).🏗️ Arquitectura del SistemaEl proyecto se divide en cuatro contenedores principales interconectados en una red aislada:Drupal 10 (Frontend/CMS): Actúa como interfaz principal y hub de información. Consumo de APIs internas y externas mediante Guzzle.Node.js API (Backend): Gestiona la lógica de negocio, autenticación JWT y lectura de archivos de sistema.PostgreSQL 15: Motor de persistencia para los datos de Drupal y logs de la API.pgAdmin 4: Interfaz gráfica para la administración y monitorización de la base de datos.🛠️ Funcionalidades Principales🔐 Seguridad y AutenticaciónJWT (JSON Web Tokens): Flujo de autenticación completo para proteger rutas sensibles en la API de Node.js.Variables de Entorno: Gestión segura de credenciales (App-Tokens, User-Tokens, Secret Keys) mediante archivos .env inyectados a través de Docker Compose.🔌 Integraciones Externas (GLPI API)Handshake de Sesión: Implementación del ciclo initSession -> Request -> killSession.Búsqueda Parametrizada: Localización de usuarios mediante email y recuperación de tareas técnicas (TicketTask) por ID de usuario.Mapeo Dinámico: Uso de metadatos (listSearchOptions) para sincronizar IDs de campos entre sistemas.📂 Gestión de ArchivosSincronización en tiempo real entre archivos planos del servidor (.txt) y la interfaz de Drupal mediante peticiones internas.🚀 Instalación y DespliegueClonar el repositorio:Bashgit clone https://github.com/tu-usuario/tu-proyecto.git
-cd tu-proyecto
-Configurar variables de entorno:Crea un archivo .env en la raíz con la siguiente estructura:Fragmento de código# API & Auth
-JWT_SECRET=tu_clave_secreta
+# 🚀 Drupal 10 & Node.js API Gateway Integration
 
-# Database
-POSTGRES_DB=nombre de la base de datos
-POSTGRES_USER=usuario
-POSTGRES_PASSWORD=contraseña
+Este proyecto consiste en una arquitectura de microservicios orquestada con **Docker**, que integra un CMS **Drupal 10**, una **API REST en Node.js**, una base de datos **PostgreSQL** y la integración funcional con la API externa de gestión de activos **GLPI (Instituto de Astrofísica de Canarias)**.
 
-# GLPI Integration
-GLPI_BASE_URL=direccion url
-GLPI_APP_TOKEN=tu_app_token
-GLPI_USER_TOKEN=tu_user_token
-Levantar el stack con Docker:Bashdocker-compose up -d
+## 🏗️ Arquitectura del Sistema
 
-📍 Endpoints de la APIInternos (Node.js)RutaMétodoDescripción/auth/loginPOSTGeneración de Token JWT./api/ver-historialGETLectura de introducir-texto.txt.Externos (Drupal ↔ GLPI)RutaDescripción/api/glpi/buscar/{email}Busca un perfil de usuario en el servidor GLPI./api/glpi/tareas/{id}Lista las tareas activas asignadas a un técnico.🛠️ Tecnologías UtilizadasLenguajes: PHP 8.4, JavaScript (Node.js), SQL.Frameworks: Drupal 10, Express.js.Herramientas: Docker, Guzzle HTTP, Postman, pgAdmin, JWT.📝 AutorLorena Fumero - Desarrollo e Integración - TuGitHub
+El ecosistema se despliega en una red aislada (`mi-red-segura`) y se compone de cuatro contenedores interconectados:
+
+* **Drupal 10 (CMS):** Actúa como la interfaz de usuario principal y "Hub" de datos, consumiendo APIs mediante el cliente Guzzle.
+* **Node.js API:** Backend personalizado encargado de la lógica de negocio, autenticación de usuarios y gestión de archivos de sistema.
+* **PostgreSQL 15:** Motor de base de datos relacional que da soporte tanto a Drupal como a la persistencia de la API.
+* **pgAdmin 4:** Herramienta de administración visual para la gestión de tablas y monitorización de datos.
+
+## 🛠️ Funcionalidades Implementadas
+
+### 🔐 Seguridad y Gestión de Secretos
+* **Autenticación JWT:** Implementación de tokens de seguridad para proteger el acceso a los endpoints del backend en Node.js.
+* **Variables de Entorno:** Uso de un archivo `.env` centralizado para gestionar credenciales sensibles (Tokens, claves maestras y URLs), inyectándolas de forma segura a través de Docker Compose.
+
+### 🔌 Integración Avanzada con GLPI
+* **Handshake de Sesión:** Flujo automatizado de autenticación técnica: `initSession` -> `Request` -> `killSession`.
+* **Búsqueda Parametrizada:** Localización dinámica de perfiles mediante correo electrónico y recuperación de tareas técnicas (`TicketTask`) vinculadas a un ID de técnico.
+* **Mapeo de Metadatos:** Sincronización de identificadores de campos dinámicos mediante auditoría de esquemas con el endpoint `listSearchOptions`.
+
+### 📂 Gestión de Datos y Persistencia
+* **I/O de Archivos:** Lectura y sincronización de contenido entre archivos planos del servidor (`.txt`) y la interfaz visual de Drupal.
+* **Administración SQL:** Configuración de pgAdmin para la monitorización de las tablas del core de Drupal y gestión de logs de actividad.
+
+## 🚀 Instalación y Despliegue
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/tu-usuario/tu-proyecto.git](https://github.com/tu-usuario/tu-proyecto.git)
+    cd tu-proyecto
+    ```
+
+2.  **Configurar el archivo `.env`:**
+    Crea un archivo `.env` en la raíz con tus credenciales reales:
+    ```env
+    # API & Auth (Node.js)
+    JWT_SECRET=tu_clave_secreta_maestra
+    
+    # Database (PostgreSQL)
+    POSTGRES_DB=nombre de la db
+    POSTGRES_USER=nombre de ususario
+    POSTGRES_PASSWORD= contraseña
+    
+    # GLPI Integration (IAC)
+    GLPI_BASE_URL=url que proceda
+    GLPI_APP_TOKEN=tu_app_token_generado
+    GLPI_USER_TOKEN=tu_user_token_personal
+    ```
+
+3.  **Desplegar el Stack:**
+    ```bash
+    docker-compose up -d
+    ```
+
+## 📍 Endpoints Principales
+
+### API Interna (Node.js)
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| `POST` | `/auth/login` | Autenticación y generación de Bearer Token (JWT). |
+| `GET` | `/api/ver-historial` | Recuperación de datos desde el archivo `introducir-texto.txt`. |
+
+### API Externa (Drupal ↔ GLPI)
+| Ruta en Drupal | Acción |
+| :--- | :--- |
+| `/api/glpi/buscar/{email}` | Consulta perfiles de usuario en GLPI filtrando por correo. |
+| `/api/glpi/tareas/{id}` | Lista todas las `TicketTask` asignadas a un técnico específico. |
+
+## 🛠️ Tecnologías Utilizadas
+
+* **Lenguajes:** PHP 8.4, JavaScript (Node.js), SQL.
+* **Frameworks:** Drupal 10, Express.js.
+* **Herramientas:** Docker & Docker Compose, Guzzle HTTP, Postman, pgAdmin 4, JWT.
+
+---
+📝 **Autor:** Lorena Fumero - *Desarrollo e Integración de Sistemas (IAC)*
