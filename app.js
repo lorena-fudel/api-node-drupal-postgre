@@ -25,11 +25,10 @@ const crearTabla = async () => {
 };
 crearTabla();
 
-// Montaje de rutas
+// Importante: Escuchar en 0.0.0.0 para Docker
+app.use('/api', fileRoutes); 
 app.use('/auth', authRoutes);
-app.use('/files', fileRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 API estable en puerto ${PORT}`);
+app.listen(3000, '0.0.0.0', () => {
+    console.log("🚀 Servidor escuchando en el puerto 3000");
 });

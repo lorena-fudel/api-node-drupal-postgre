@@ -1,6 +1,7 @@
 services:
   api:
     build: .
+    restart: always  # <--- Esto obligará a Docker a levantar la API si se cae
     ports:
       - "3000:3000"
     env_file:

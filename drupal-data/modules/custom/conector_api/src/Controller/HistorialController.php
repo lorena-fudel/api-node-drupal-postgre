@@ -25,7 +25,7 @@ class HistorialController extends ControllerBase
 
     try {
       // 2. Llamada a la API
-      $response = $client->get('http://api:3000/files/ver-historial', [
+      $response = $client->get('http://api:3000/api/ver-historial', [
         'headers' => [
           'Authorization' => 'Bearer ' . $token,
         ],
@@ -40,7 +40,7 @@ class HistorialController extends ControllerBase
 
       return [
         '#type' => 'markup',
-        '#markup' => '<h2>Contenido de hola.txt:</h2><pre>' . $safe_contenido . '</pre>',
+        '#markup' => '<h2>Contenido de introducir-texto.txt:</h2><pre>' . $safe_contenido . '</pre>',
         '#cache' => [
           'max-age' => 0, // Esto obliga a Drupal a recargar de la API siempre
         ], ];
@@ -89,7 +89,7 @@ class HistorialController extends ControllerBase
 
     $client = \Drupal::httpClient();
     try {
-      $response = $client->get('http://api:3000/files/saludar', [
+      $response = $client->get('http://api:3000/api/saludar', [
         'headers' => ['Authorization' => 'Bearer ' . $token]
       ]);
 
