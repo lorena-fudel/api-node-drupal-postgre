@@ -1,7 +1,7 @@
 v2
 # 🚀 Drupal 10 & Node.js API Gateway Integration
 
-Este proyecto consiste en una arquitectura de microservicios orquestada con **Docker**, que integra un CMS **Drupal 10**, una **API REST en Node.js**, una base de datos **PostgreSQL** y la integración funcional con la API externa de gestión de activos **GLPI (Instituto de Astrofísica de Canarias)**.
+Este proyecto consiste en una arquitectura de microservicios orquestada con **Docker**, que integra un CMS **Drupal 10**, una **API REST en Node.js**, una base de datos **PostgreSQL** y la integración funcional con la API externa de gestión de activos **GLPI**.
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -78,4 +78,4 @@ El ecosistema se despliega en una red aislada (`mi-red-segura`) y se compone de 
 * **Herramientas:** Docker & Docker Compose, Guzzle HTTP, Postman, pgAdmin 4, JWT.
 
 ---
-📝 **Autor:** Lorena Fumero - *Desarrollo e Integración de Sistemas (IAC)*
+📝 **Autor:** Lorena Fudel - *Desarrollo e Integración de Sistemas (IAC)*
