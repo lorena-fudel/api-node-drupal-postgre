@@ -47,3 +47,11 @@ conector_api.tareas_usuario:
     _title: 'Tareas del Usuario'
   requirements:
     _permission: 'access content'
+
+conector_api.lista_trabajadores:
+  path: '/api/glpi/trabajadores'
+  defaults:
+    _controller: '\Drupal\conector_api\Controller\GlpiController::listarTrabajadoresIac'
+    _title: 'Listado Trabajadores IAC'
+  requirements:
+    _permission: 'access content'
