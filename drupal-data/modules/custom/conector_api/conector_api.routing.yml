@@ -52,6 +52,8 @@ conector_api.lista_trabajadores:
   path: '/api/glpi/trabajadores'
   defaults:
     _controller: '\Drupal\conector_api\Controller\GlpiController::listarTrabajadoresIac'
-    _title: 'Listado Trabajadores IAC'
+    _title: 'Listado de Trabajadores IAC'
   requirements:
+    # 'access content' es el permiso básico para que cualquiera pueda verlo.
+    # Si quieres que solo lo vean administradores, usa 'administer site configuration'.
     _permission: 'access content'
